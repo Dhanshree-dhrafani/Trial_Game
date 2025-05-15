@@ -8,3 +8,4 @@
 score_game <- function(game_state) {
   sapply(game_state$hands, nrow)
 }
+

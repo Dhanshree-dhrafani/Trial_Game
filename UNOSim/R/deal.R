@@ -16,3 +16,4 @@ deal_hands <- function(deck, n_players = 4) {
   list(hands = hands, deck = deck, discard = deck[1, , drop = FALSE], deck = deck[-1, ])
 }
 
+

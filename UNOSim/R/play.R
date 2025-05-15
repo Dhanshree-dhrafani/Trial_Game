@@ -6,7 +6,7 @@
 #' @return Final game state including winner.
 #' @export
 play_game <- function(n_players = 4) {
-  state <- deal_hands(create_deck(), n_players)
+  state <- deal_hands(create_uno_deck(), n_players)
   hands <- state$hands
   deck <- state$deck
   discard <- state$discard
@@ -50,3 +50,4 @@ play_game <- function(n_players = 4) {
     turn <- (turn + direction - 1) %% n_players + 1
   }
 }
+
