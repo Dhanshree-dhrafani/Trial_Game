@@ -1,0 +1,5 @@
+"0","cat(""\nTop discard card:\n"")"
+"1","
+Top discard card:
+"
+"0","print(dealt$discard)"
