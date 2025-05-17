@@ -6,7 +6,14 @@ numbers <- 0:9
 actions <- c("skip", "reverse", "+2")
 wilds <- c("wild", "wild_draw4")
 
-# Function to create the full UNO deck
+#' Create UNO Deck
+#'
+#' Generates the full 108-card UNO deck with number, action, and wild cards.
+#' @return A data frame of UNO cards with columns: color, value, type
+#' @examples
+#' deck <- create_uno_deck()
+#' head(deck)
+#' @export
 create_uno_deck <- function() {
   # Generate Number Cards
   number_cards <- expand_grid(
@@ -36,14 +43,9 @@ create_uno_deck <- function() {
     mutate(type = "wild") %>%
     slice(rep(1:n(), 4))
 
-  # s Combine All Cards into a Deck
+  # Combine All Cards into a Deck
   deck <- bind_rows(number_cards, action_cards, wild_cards) %>%
     arrange(color, type, value)
 
   return(deck)
 }
-
-# Create the UNO deck
-uno_deck <- create_uno_deck()
-uno_deck
-

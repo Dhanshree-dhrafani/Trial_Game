@@ -3,7 +3,7 @@
 # library(unoSim)          # If installed via devtools::install()
 
 # Step 1: Create the full deck
-deck <- create_deck()
+deck <- create_uno_deck()
 cat("Deck created with", nrow(deck), "cards.\n")
 
 # Step 2: Deal cards to players

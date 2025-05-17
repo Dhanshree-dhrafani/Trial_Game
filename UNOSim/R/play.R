@@ -33,8 +33,36 @@ play_game <- function(n_players = 4) {
       hand <- rbind(hand, drawn)
     } else {
       play_idx <- sample(playable, 1)
-      discard <- rbind(discard, hand[play_idx, ])
+      played_card <- hand[play_idx, ]
+      discard <- rbind(discard, played_card)
       hand <- hand[-play_idx, ]
+
+      # Handle action/wild card effects
+      if (played_card$value == "skip") {
+        turn <- (turn + direction - 1) %% n_players + 1  # skip next player
+      } else if (played_card$value == "reverse") {
+        direction <- -direction
+      } else if (played_card$value == "+2") {
+        next_player <- paste0("Player_", (turn + direction - 1) %% n_players + 1)
+        if (nrow(deck) >= 2) {
+          hands[[next_player]] <- rbind(hands[[next_player]], deck[1:2, ])
+          deck <- deck[-(1:2), ]
+        }
+        turn <- (turn + direction - 1) %% n_players + 1  # skip next player
+      } else if (played_card$value == "wild_draw4") {
+        next_player <- paste0("Player_", (turn + direction - 1) %% n_players + 1)
+        if (nrow(deck) >= 4) {
+          hands[[next_player]] <- rbind(hands[[next_player]], deck[1:4, ])
+          deck <- deck[-(1:4), ]
+        }
+        turn <- (turn + direction - 1) %% n_players + 1
+      }
+
+      # For wild cards, choose random color
+      if (played_card$value %in% c("wild", "wild_draw4")) {
+        new_color <- sample(c("red", "blue", "green", "yellow"), 1)
+        discard[nrow(discard), "color"] <- new_color
+      }
     }
 
     # Update hand
@@ -50,4 +78,3 @@ play_game <- function(n_players = 4) {
     turn <- (turn + direction - 1) %% n_players + 1
   }
 }
-

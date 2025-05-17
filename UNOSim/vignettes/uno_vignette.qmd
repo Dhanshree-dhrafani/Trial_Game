@@ -1,0 +1,12 @@
+---
+title: "uno_vignette.qmd"
+format: html
+editor: visual
+---
+
+```{r}
+library(UNOSim)
+
+ 
+```
+

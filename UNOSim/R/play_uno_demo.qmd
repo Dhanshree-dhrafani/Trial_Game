@@ -1,9 +1,7 @@
-
-
 ```{r}
 # Load your package (after building it locally)
-# devtools::load_all(".")  # If developing
-# library(unoSim)          # If installed via devtools::install()
+# devtools::load_all(".")
+# library(unoSim)
 
 # Step 1: Create the full deck
 deck <- create_uno_deck()
@@ -27,14 +25,32 @@ cat("\nPlaying a game of UNO with", n_players, "players...\n\n")
 game_result <- play_game(n_players)
 
 # Step 4: Show final result
-cat("\n✅ Game over!\n")
+cat("\n Game over!\n")
 cat("🎉 Winner:", game_result$winner, "\n")
 
 # Step 5: Show remaining cards for each player
-cat("\n📦 Final hands:\n")
-print(score_game(game_result))
+cat("\n Final hands:\n")
+final_scores <- score_game(game_result)
+print(final_scores)
 
-# Optional: View discard pile
-# View(game_result$discard)
+# Step 6: Show final rankings
+cat("\n Player Rankings:\n")
+ranking_df <- tibble::tibble(
+  Player = names(final_scores),
+  Cards_Left = as.integer(final_scores),
+  Position = paste0(dplyr::row_number(final_scores),
+                    dplyr::case_when(
+                      dplyr::row_number(final_scores) == 1 ~ "st",
+                      dplyr::row_number(final_scores) == 2 ~ "nd",
+                      dplyr::row_number(final_scores) == 3 ~ "rd",
+                      TRUE ~ "th"
+                    ))
+)
+print(ranking_df)
+
+# Step 7: Show game log
+cat("\n🕹️ Game log:\n")
+print(game_result$game_log)
+
 ```
 
